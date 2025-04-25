@@ -28,10 +28,10 @@ const DoctorCard = ({ doctor }) => {
               alt={doctor.name}
               className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-md"
             />
-            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-white px-3 py-1 rounded-full flex items-center gap-1 text-sm font-bold shadow-md">
+            {/* <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-white px-3 py-1 rounded-full flex items-center gap-1 text-sm font-bold shadow-md">
               <Star size={16} className="fill-current shrink-0" />
               {doctor.rating || "4.8"}
-            </div>
+            </div> */}
           </div>
 
           {/* Experience */}
