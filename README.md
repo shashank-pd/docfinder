@@ -35,7 +35,8 @@
 ---
 ## 📸 Screenshots
 
-> ![image](https://github.com/user-attachments/assets/799ed4e1-502b-4da5-9e4a-593f1792b0de)
+> ![image](https://github.com/user-attachments/assets/a826a5c5-7643-440a-ad82-b64436786695)
+
 ---
 ## Installation
 
