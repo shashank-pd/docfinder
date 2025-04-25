@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "specialties": ["General Physician", "Dermatologist"],
+    "experience": 10,
+    "fee": 200,
+    "consultationMode": "Video Consult"
+  },
+  {
+    "id": 2,
+    "name": "Jane Smith",
+    "specialties": ["Cardiologist", "Neurologist"],
+    "experience": 12,
+    "fee": 300,
+    "consultationMode": "In Clinic"
+  },
+  {
+    "id": 3,
+    "name": "Alice Johnson",
+    "specialties": ["Dentist", "Orthopaedic"],
+    "experience": 8,
+    "fee": 150,
+    "consultationMode": "Video Consult"
+  }
+]
