@@ -76,7 +76,16 @@ const DoctorListing = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      <h1 className="text-3xl md:text-4xl font-bold text-center mb-6">Find Doctors</h1>
+      <div className="text-center mb-6 bg-gradient-to-r from-blue-500 to-teal-400 bg-clip-text">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-transparent px-4 py-2">
+          DoctorFinder
+        </h1>
+        <h2 className="text-xl md:text-2xl font-semibold text-transparent">
+          Your Health, Your Choice
+        </h2>
+      </div>
+
+
       <DoctorSearch doctors={doctors} setSearchQuery={setSearchQuery} />
 
       <div className="flex flex-col md:flex-row gap-6">
