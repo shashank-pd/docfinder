@@ -28,21 +28,18 @@ const DoctorListing = () => {
   useEffect(() => {
     let filtered = [...doctors];
 
-    // Search Filter
     if (searchQuery) {
       filtered = filtered.filter((doctor) =>
         doctor.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    // Consultation Type Filter
     if (selectedConsultationType === 'Video') {
       filtered = filtered.filter((doctor) => doctor.video_consult);
     } else if (selectedConsultationType === 'Clinic') {
       filtered = filtered.filter((doctor) => doctor.in_clinic);
     }
 
-    // Specialties Filter
     if (selectedSpecialties.length > 0) {
       filtered = filtered.filter((doctor) =>
         selectedSpecialties.some((specialty) =>
@@ -51,19 +48,10 @@ const DoctorListing = () => {
       );
     }
 
-    // Sorting
     if (sortOption === 'fees') {
-      filtered.sort((a, b) => {
-        const feeA = parseInt(a.fees.replace(/[^\d]/g, ''));
-        const feeB = parseInt(b.fees.replace(/[^\d]/g, ''));
-        return feeA - feeB;
-      });
+      filtered.sort((a, b) => parseInt(a.fees.replace(/[^\d]/g, '')) - parseInt(b.fees.replace(/[^\d]/g, '')));
     } else if (sortOption === 'experience') {
-      filtered.sort((a, b) => {
-        const expA = parseInt(a.experience.replace(/[^\d]/g, ''));
-        const expB = parseInt(b.experience.replace(/[^\d]/g, ''));
-        return expB - expA;
-      });
+      filtered.sort((a, b) => parseInt(b.experience.replace(/[^\d]/g, '')) - parseInt(a.experience.replace(/[^\d]/g, '')));
     }
 
     setFilteredDoctors(filtered);
@@ -87,17 +75,16 @@ const DoctorListing = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-4">
-      <h1 className="text-4xl font-bold text-center mb-6">Find Doctors</h1>
-
+    <div className="max-w-7xl mx-auto px-4 py-6">
+      <h1 className="text-3xl md:text-4xl font-bold text-center mb-6">Find Doctors</h1>
       <DoctorSearch doctors={doctors} setSearchQuery={setSearchQuery} />
 
-      <div className="flex gap-6">
-        <div className="w-1/4 sticky top-4 h-fit">
+      <div className="flex flex-col md:flex-row gap-6">
+        <div className="md:w-1/4 w-full">
           <DoctorFilters onFilterChange={handleFilterChange} />
         </div>
 
-        <div className="w-3/4 grid grid-cols-1 md:grid-cols-1 gap-6">
+        <div className="md:w-3/4 w-full grid grid-cols-1 gap-6">
           {filteredDoctors.length > 0 ? (
             filteredDoctors.map((doctor) => (
               <DoctorCard key={doctor.id} doctor={doctor} />
