@@ -1,129 +1,99 @@
+import React from 'react';
 
+const DoctorFilters = ({ onFilterChange }) => {
+  const specialties = [
+    "General Physician",
+    "Dentist",
+    "Dermatologist",
+    "Paediatrician",
+    "Gynaecologist",
+    "ENT",
+    "Diabetologist",
+    "Cardiologist"
+  ];
 
-const DoctorFilters = ({
-    selectedConsultationType,
-    setSelectedConsultationType,
-    selectedSpecialties,
-    setSelectedSpecialties,
-    setSortBy,
-  }) => {
-    const specialties = [
-      "General Physician",
-      "Dentist",
-      "Dermatologist",
-      "Paediatrician",
-      "Gynaecologist",
-      // Add more specialties as needed
-    ];
-  
-    const handleSpecialtyChange = (specialty) => {
-      if (selectedSpecialties.includes(specialty)) {
-        setSelectedSpecialties(
-          selectedSpecialties.filter((item) => item !== specialty)
-        );
-      } else {
-        setSelectedSpecialties([...selectedSpecialties, specialty]);
-      }
-    };
-  
-    return (
+  const consultationModes = [
+    { id: "video", label: "Video Consult", testId: "filter-video-consult" },
+    { id: "clinic", label: "In Clinic", testId: "filter-in-clinic" }
+  ];
+
+  return (
+    <div className="bg-white p-4 rounded-lg shadow-md">
+      {/* Consultation Mode */}
       <div className="mb-6">
-        <h3 data-testid="filter-header-moc">Consultation Mode</h3>
-        <div>
-          <label>
-            <input
-              type="radio"
-              name="consultationMode"
-              data-testid="filter-video-consult"
-              checked={selectedConsultationType === "Video Consult"}
-              onChange={() => setSelectedConsultationType("Video Consult")}
-            />
-            Video Consult
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="consultationMode"
-              data-testid="filter-in-clinic"
-              checked={selectedConsultationType === "In Clinic"}
-              onChange={() => setSelectedConsultationType("In Clinic")}
-            />
-            In Clinic
-          </label>
-        </div>
-  
-        <h3 data-testid="filter-header-speciality">Specialty</h3>
-        <div>
-          {specialties.map((specialty) => (
-            <label key={specialty}>
+        <h3 className="text-lg font-semibold text-blue-800 mb-3" data-testid="filter-header-moc">
+          Consultation Mode
+        </h3>
+        <div className="space-y-2">
+          {consultationModes.map((mode) => (
+            <label key={mode.id} className="flex items-center space-x-2">
               <input
-                type="checkbox"
-                data-testid={`filter-specialty-${specialty.replace(
-                  / /g,
-                  "-"
-                )}`}
-                checked={selectedSpecialties.includes(specialty)}
-                onChange={() => handleSpecialtyChange(specialty)}
+                type="radio"
+                name="consultationMode"
+                value={mode.id}
+                data-testid={mode.testId}
+                onChange={(e) => onFilterChange('consultationMode', e.target.value)}
+                className="text-blue-600"
               />
-              {specialty}
+              <span>{mode.label}</span>
             </label>
           ))}
         </div>
-  
-        <h3 data-testid="filter-header-sort">Sort By</h3>
-        <div>
-          <label>
+      </div>
+
+      {/* Specialties */}
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-blue-800 mb-3" data-testid="filter-header-speciality">
+          Specialties
+        </h3>
+        <div className="space-y-2">
+          {specialties.map((specialty) => (
+            <label key={specialty} className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                value={specialty}
+                data-testid={`filter-specialty-${specialty.replace(/\s+/g, '-')}`}
+                onChange={(e) => onFilterChange('specialty', { value: specialty, checked: e.target.checked })}
+                className="text-blue-600"
+              />
+              <span>{specialty}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Sort Options */}
+      <div>
+        <h3 className="text-lg font-semibold text-blue-800 mb-3" data-testid="filter-header-sort">
+          Sort By
+        </h3>
+        <div className="space-y-2">
+          <label className="flex items-center space-x-2">
             <input
               type="radio"
               name="sortBy"
+              value="fees"
               data-testid="sort-fees"
-              onChange={() => setSortBy("fees")}
+              onChange={(e) => onFilterChange('sortBy', e.target.value)}
+              className="text-blue-600"
             />
-            Fees (Ascending)
+            <span>Fees (Low to High)</span>
           </label>
-          <label>
+          <label className="flex items-center space-x-2">
             <input
               type="radio"
               name="sortBy"
+              value="experience"
               data-testid="sort-experience"
-              onChange={() => setSortBy("experience")}
+              onChange={(e) => onFilterChange('sortBy', e.target.value)}
+              className="text-blue-600"
             />
-            Experience (Descending)
+            <span>Experience (High to Low)</span>
           </label>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
-  // ...existing code...
-const filterDoctors = (doctors: Doctor[]) => {
-    let filtered = [...doctors];
-  
-    // Search Filter
-    if (searchQuery) {
-      filtered = filtered.filter((doctor) =>
-        doctor.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-  
-    // Consultation Type Filter
-    if (selectedConsultationType === 'Video Consult') {
-      filtered = filtered.filter(doctor => doctor.video_consult);
-    } else if (selectedConsultationType === 'In Clinic') {
-      filtered = filtered.filter(doctor => doctor.in_clinic);
-    }
-  
-    // Specialties Filter
-    if (selectedSpecialties.length > 0) {
-      filtered = filtered.filter((doctor) =>
-        selectedSpecialties.some((specialty) =>
-          doctor.specialities.some(s => s.name === specialty)
-        )
-      );
-    }
-  
-    return filtered;
-  };
-  // ...existing code...
-  
-  export default DoctorFilters;
+export default DoctorFilters;
