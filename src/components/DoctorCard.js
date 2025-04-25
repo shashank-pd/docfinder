@@ -16,9 +16,9 @@ const DoctorCard = ({ doctor }) => {
 
   return (
     <div
-    data-testid="doctor-card"
-    className="border border-gray-200 rounded-xl shadow-lg hover:shadow-xl bg-white transition-transform duration-300 hover:scale-[1.02] hover:-translate-y-1"
-  >
+      data-testid="doctor-card"
+      className="border border-gray-200 rounded-xl shadow-lg hover:shadow-xl bg-white transition-transform duration-300 hover:scale-[1.02] hover:-translate-y-1"
+    >
       <div className="flex flex-col lg:flex-row">
         {/* Left column: Doctor's photo and stats */}
         <div className="bg-blue-50 p-6 flex flex-col items-center justify-center lg:w-64 rounded-l-xl">
@@ -33,12 +33,12 @@ const DoctorCard = ({ doctor }) => {
               {doctor.rating || "4.8"}
             </div>
           </div>
-          
+
 
           {/* Experience */}
           <div className="flex items-center gap-2 mb-3 bg-blue-100 px-4 py-2 rounded-full text-blue-800">
             <Clock size={18} className="shrink-0" />
-            <p data-testid="doctor-experience" className="font-medium">
+            <p data-testid="doctor-experience" className="font-medium text-sm">
               {doctor.experience}
             </p>
           </div>
