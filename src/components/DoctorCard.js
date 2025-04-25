@@ -34,7 +34,6 @@ const DoctorCard = ({ doctor }) => {
             </div>
           </div>
 
-
           {/* Experience */}
           <div className="flex items-center gap-2 mb-3 bg-blue-100 px-4 py-2 rounded-full text-blue-800">
             <Clock size={18} className="shrink-0" />
@@ -98,7 +97,9 @@ const DoctorCard = ({ doctor }) => {
                   size={18}
                   className="shrink-0 mt-1 text-blue-500"
                 />
-                <p className="text-sm">{fullAddress}</p>
+                <p data-testid="doctor-address" className="text-sm">
+                  {fullAddress}
+                </p>
               </div>
             )}
 
@@ -108,7 +109,7 @@ const DoctorCard = ({ doctor }) => {
                   size={18}
                   className="shrink-0 mt-1 text-blue-500"
                 />
-                <p className="text-sm">
+                <p data-testid="doctor-languages" className="text-sm">
                   <span className="font-medium">Languages:</span>{" "}
                   {doctor.languages.join(", ")}
                 </p>
