@@ -9,9 +9,11 @@ const DoctorListing = () => {
   const [doctors, setDoctors] = useState([]);
   const [filteredDoctors, setFilteredDoctors] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedConsultationType, setSelectedConsultationType] = useState('');
-  const [selectedSpecialties, setSelectedSpecialties] = useState([]);
-  const [sortOption, setSortOption] = useState('');
+  const [filters, setFilters] = useState({
+    consultationMode: '',
+    specialties: [],
+    sortBy: ''
+  });
 
   useEffect(() => {
     axios
@@ -28,49 +30,81 @@ const DoctorListing = () => {
   useEffect(() => {
     let filtered = [...doctors];
 
+    // Apply search filter
     if (searchQuery) {
       filtered = filtered.filter((doctor) =>
         doctor.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    if (selectedConsultationType === 'Video') {
+    // Apply consultation mode filter
+    if (filters.consultationMode === 'Video Consult') {
       filtered = filtered.filter((doctor) => doctor.video_consult);
-    } else if (selectedConsultationType === 'Clinic') {
+    } else if (filters.consultationMode === 'In Clinic') {
       filtered = filtered.filter((doctor) => doctor.in_clinic);
     }
 
-    if (selectedSpecialties.length > 0) {
+    // Apply specialty filters
+    if (filters.specialties.length > 0) {
       filtered = filtered.filter((doctor) =>
-        selectedSpecialties.some((specialty) =>
-          doctor.specialities.some((s) => s.name === specialty)
+        filters.specialties.some((specialty) =>
+          doctor.specialities?.some((s) => 
+            s.name.toLowerCase() === specialty.toLowerCase()
+          )
         )
       );
     }
 
-    if (sortOption === 'fees') {
-      filtered.sort((a, b) => parseInt(a.fees.replace(/[^\d]/g, '')) - parseInt(b.fees.replace(/[^\d]/g, '')));
-    } else if (sortOption === 'experience') {
-      filtered.sort((a, b) => parseInt(b.experience.replace(/[^\d]/g, '')) - parseInt(a.experience.replace(/[^\d]/g, '')));
+    // Apply sorting
+    if (filters.sortBy === 'fees') {
+      filtered.sort((a, b) => {
+        const feeA = parseInt(a.fees.replace(/[^\d]/g, ''));
+        const feeB = parseInt(b.fees.replace(/[^\d]/g, ''));
+        return feeA - feeB;
+      });
+    } else if (filters.sortBy === 'experience') {
+      filtered.sort((a, b) => {
+        const expA = parseInt(a.experience.replace(/\D/g, ''));
+        const expB = parseInt(b.experience.replace(/\D/g, ''));
+        return expB - expA; // High to low
+      });
     }
 
     setFilteredDoctors(filtered);
-  }, [doctors, searchQuery, selectedConsultationType, selectedSpecialties, sortOption]);
+  }, [doctors, searchQuery, filters]);
 
-  const handleFilterChange = (filterType, filterData) => {
-    if (filterType === 'consultationMode') {
-      setSelectedConsultationType(filterData);
-    } else if (filterType === 'specialty') {
-      const updatedSpecialties = filterData.checked
-        ? [...selectedSpecialties, filterData.value]
-        : selectedSpecialties.filter((s) => s !== filterData.value);
-      setSelectedSpecialties(updatedSpecialties);
-    } else if (filterType === 'sortBy') {
-      setSortOption(filterData);
-    } else if (filterType === 'reset') {
-      setSelectedConsultationType('');
-      setSelectedSpecialties([]);
-      setSortOption('');
+  const handleFilterChange = (filterType, value) => {
+    setFilters(prevFilters => {
+      const newFilters = { ...prevFilters };
+      
+      switch (filterType) {
+        case 'consultationMode':
+          newFilters.consultationMode = value;
+          break;
+        case 'specialty':
+          if (value.checked) {
+            newFilters.specialties = [...prevFilters.specialties, value.value];
+          } else {
+            newFilters.specialties = prevFilters.specialties.filter(
+              (s) => s !== value.value
+            );
+          }
+          break;
+        case 'sortBy':
+          newFilters.sortBy = value;
+          break;
+        case 'reset':
+          return {
+            consultationMode: '',
+            specialties: [],
+            sortBy: ''
+          };
+      }
+      return newFilters;
+    });
+
+    if (filterType === 'reset') {
+      setSearchQuery('');
     }
   };
 
@@ -85,12 +119,14 @@ const DoctorListing = () => {
         </h2>
       </div>
 
-
       <DoctorSearch doctors={doctors} setSearchQuery={setSearchQuery} />
 
       <div className="flex flex-col md:flex-row gap-6">
         <div className="md:w-1/4 w-full">
-          <DoctorFilters onFilterChange={handleFilterChange} />
+          <DoctorFilters 
+            onFilterChange={handleFilterChange}
+            currentFilters={filters}
+          />
         </div>
 
         <div className="md:w-3/4 w-full grid grid-cols-1 gap-6">
