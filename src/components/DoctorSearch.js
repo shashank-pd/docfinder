@@ -34,13 +34,20 @@ const DoctorSearch = ({ doctors, setSearchQuery }) => {
             <li
               key={doctor.id}
               data-testid="suggestion-item"
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
               onClick={() => {
                 setSearchQuery(doctor.name);
                 setSuggestions([]);
               }}
             >
-              {doctor.name}
+              {/* Doctor Image */}
+              <img
+                src={doctor.photo || '/default-avatar.jpg'} // Fallback in case there's no photo
+                alt={doctor.name}
+                className="w-8 h-8 rounded-full mr-4"
+              />
+              {/* Doctor Name */}
+              <span>{doctor.name}</span>
             </li>
           ))}
         </ul>
