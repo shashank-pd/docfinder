@@ -1,73 +1,111 @@
-// DoctorFilters.jsx
-import React, { useState } from 'react';
+import React from 'react';
 
-const DoctorFilters = ({ onFilterChange }) => {
-  const [selectedFilters, setSelectedFilters] = useState({ consultationMode: '', specialties: [], sortBy: '' });
-
+const DoctorFilters = ({ onFilterChange, currentFilters }) => {
   const specialties = ["Audiologist", "Ayurveda", "Dentist", "Dermatologist", "Diabetologist", "Dietitian/Nutritionist", "ENT", "General Physician", "General Surgeon", "Gynaecologist and Obstetrician", "Homeopath", "Ophthalmologist", "Orthopaedic", "Paediatrician", "Psychiatrist", "Rheumatologist"];
 
-  const consultationModes = [{ id: "video", label: "Video" }, { id: "clinic", label: "Clinic" }];
-
-  const handleConsultationChange = (value) => {
-    setSelectedFilters({ ...selectedFilters, consultationMode: value });
-    onFilterChange('consultationMode', value);
-  };
-
-  const handleSpecialtyChange = (specialty, checked) => {
-    const updated = checked ? [...selectedFilters.specialties, specialty] : selectedFilters.specialties.filter((s) => s !== specialty);
-    setSelectedFilters({ ...selectedFilters, specialties: updated });
-    onFilterChange('specialty', { value: specialty, checked });
-  };
-
-  const handleSortChange = (value) => {
-    setSelectedFilters({ ...selectedFilters, sortBy: value });
-    onFilterChange('sortBy', value);
-  };
-
-  const resetFilters = () => {
-    setSelectedFilters({ consultationMode: '', specialties: [], sortBy: '' });
-    onFilterChange('reset', true);
-  };
-
   return (
-    <div className="bg-white p-4 rounded-md shadow border w-full text-sm">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-base font-bold text-blue-800">Filters</h2>
-        <button onClick={resetFilters} className="text-blue-600 hover:underline text-xs">Reset</button>
-      </div>
-
-      <div className="mb-4">
-        <h3 className="font-semibold text-blue-700 mb-2">Consultation</h3>
-        {consultationModes.map((mode) => (
-          <label key={mode.id} className="flex items-center mb-1">
-            <input type="radio" name="consultationMode" value={mode.label} checked={selectedFilters.consultationMode === mode.label} onChange={() => handleConsultationChange(mode.label)} className="mr-2" />
-            {mode.label}
+    <div className="bg-white p-4 rounded-lg shadow-md">
+      {/* Consultation Mode */}
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-blue-800 mb-3" data-testid="filter-header-moc">
+          Consultation Mode
+        </h3>
+        <div className="space-y-2">
+          <label className="flex items-center space-x-2">
+            <input
+              type="radio"
+              name="consultationMode"
+              value="Video Consult"
+              data-testid="filter-video-consult"
+              checked={currentFilters.consultationMode === 'Video Consult'}
+              onChange={(e) => onFilterChange('consultationMode', e.target.value)}
+              className="text-blue-600"
+            />
+            <span>Video Consult</span>
           </label>
-        ))}
-      </div>
-
-      <div className="mb-4">
-        <h3 className="font-semibold text-blue-700 mb-2">Specialties</h3>
-        <div className="grid grid-cols-2 gap-1 max-h-32 overflow-y-auto">
-          {specialties.map((specialty) => (
-            <label key={specialty} className="flex items-center text-xs">
-              <input type="checkbox" value={specialty} checked={selectedFilters.specialties.includes(specialty)} onChange={(e) => handleSpecialtyChange(specialty, e.target.checked)} className="mr-1" />
-              {specialty}
-            </label>
-          ))}
+          <label className="flex items-center space-x-2">
+            <input
+              type="radio"
+              name="consultationMode"
+              value="In Clinic"
+              data-testid="filter-in-clinic"
+              checked={currentFilters.consultationMode === 'In Clinic'}
+              onChange={(e) => onFilterChange('consultationMode', e.target.value)}
+              className="text-blue-600"
+            />
+            <span>In Clinic</span>
+          </label>
         </div>
       </div>
 
+      {/* Specialties */}
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-blue-800 mb-3" data-testid="filter-header-speciality">
+          Specialties
+        </h3>
+        <div className="max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100 pr-2">
+          <div className="space-y-2">
+            {specialties.map((specialty) => (
+              <label key={specialty} className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  value={specialty}
+                  data-testid={`filter-specialty-${specialty.replace(/[^a-zA-Z]/g, '-')}`}
+                  checked={currentFilters.specialties.includes(specialty)}
+                  onChange={(e) => onFilterChange('specialty', {
+                    value: specialty,
+                    checked: e.target.checked
+                  })}
+                  className="text-blue-600"
+                />
+                <span>{specialty}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Sort Options */}
       <div>
-        <h3 className="font-semibold text-blue-700 mb-2">Sort By</h3>
-        <label className="flex items-center mb-1">
-          <input type="radio" name="sortBy" value="fees" checked={selectedFilters.sortBy === 'fees'} onChange={() => handleSortChange('fees')} className="mr-2" />
-          Fees
-        </label>
-        <label className="flex items-center">
-          <input type="radio" name="sortBy" value="experience" checked={selectedFilters.sortBy === 'experience'} onChange={() => handleSortChange('experience')} className="mr-2" />
-          Experience
-        </label>
+        <h3 className="text-lg font-semibold text-blue-800 mb-3" data-testid="filter-header-sort">
+          Sort By
+        </h3>
+        <div className="space-y-2">
+          <label className="flex items-center space-x-2">
+            <input
+              type="radio"
+              name="sortBy"
+              value="fees"
+              data-testid="sort-fees"
+              checked={currentFilters.sortBy === 'fees'}
+              onChange={(e) => onFilterChange('sortBy', e.target.value)}
+              className="text-blue-600"
+            />
+            <span>Fees (Low to High)</span>
+          </label>
+          <label className="flex items-center space-x-2">
+            <input
+              type="radio"
+              name="sortBy"
+              value="experience"
+              data-testid="sort-experience"
+              checked={currentFilters.sortBy === 'experience'}
+              onChange={(e) => onFilterChange('sortBy', e.target.value)}
+              className="text-blue-600"
+            />
+            <span>Experience (High to Low)</span>
+          </label>
+        </div>
+      </div>
+
+      {/* Reset Button */}
+      <div className="mt-6">
+        <button
+          onClick={() => onFilterChange('reset')}
+          className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+        >
+          Reset Filters
+        </button>
       </div>
     </div>
   );
