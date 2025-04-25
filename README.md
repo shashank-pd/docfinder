@@ -1,3 +1,6 @@
+Name: Shashank Prasad
+Reg No: RA2211027010234
+
 # DocFinder
 
 ![Live](https://img.shields.io/badge/Live-Status-brightgreen) ![Built with Next.js](https://img.shields.io/badge/Built%20with-Next.js-black) ![Tailwind CSS](https://img.shields.io/badge/Built%20with-Tailwind%20CSS-blue) ![MIT License](https://img.shields.io/badge/License-MIT-blue) ![Made with Love](https://img.shields.io/badge/Made%20with-Love-red)
