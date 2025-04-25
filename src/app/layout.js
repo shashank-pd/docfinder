@@ -1,3 +1,5 @@
+import './globals.css'
+
 export const metadata = {
   title: 'DocFinder',
   description: 'Find doctors with ease',
