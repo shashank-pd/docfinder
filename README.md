@@ -1,12 +1,10 @@
-## Name: Shashank Prasad (Reg No: RA2211027010234)
-
 # DocFinder
 
 ![Live](https://img.shields.io/badge/Live-Status-brightgreen) ![Built with Next.js](https://img.shields.io/badge/Built%20with-Next.js-black) ![Tailwind CSS](https://img.shields.io/badge/Built%20with-Tailwind%20CSS-blue) ![MIT License](https://img.shields.io/badge/License-MIT-blue) ![Made with Love](https://img.shields.io/badge/Made%20with-Love-red)
 
 ## 🌟 Overview
 
-**DocFinder** is a sleek, responsive web app built using **Next.js** and **Tailwind CSS**, enabling users to **search, explore, and connect** with doctors effortlessly. With a modern design, real-time search suggestions (including doctor images), and smooth UI animations, the app provides a seamless healthcare discovery experience.
+**DocFinder** is a sleek, responsive web app built using **Next.js** and **Tailwind CSS**, leveraging **API calls** to enable users to **search, explore, and connect** with doctors effortlessly. With a modern design, real-time search suggestions (including doctor images), and smooth UI animations, the app provides a seamless healthcare discovery experience.
 
 ---
 
